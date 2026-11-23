@@ -608,7 +608,7 @@ AGPL-3.0-or-later preserved; upstream copyright/SPDX headers retained; fork modi
 | **SEC-015** | No stack traces to clients | Envelope only; unexpected errors logged with request id | `tests/api/test_api.py::test_unknown_api_route_returns_structured_error` | **Implemented** |
 | **SEC-016** | No arbitrary network fetches from user input | Model refs reject URLs/schemes; API never fetches arbitrary URLs | `tests/security/test_policy.py` model-reference tests; code review of `reproduce.load_reproduction_information` | **Implemented** |
 
-**Accepted, documented risks** (must stay visible in `.factory/SECURITY_AUDIT.md`): engine plugin loading executes code by configuration; the engine's `trust_remote_code` prompt has no internal policy (platform boundary only); plugin isolation is process-level, not a container; rate limiting is per process; CSP permits inline styles/data fonts (ADR-012). `.factory/SECURITY_AUDIT.md` is `IN PROGRESS` with interim counts 0/0/0/0 — **not a release approval**.
+**Accepted, documented risks** (must stay visible in `.factory/SECURITY_AUDIT.md`): engine plugin loading executes code by configuration; the engine's `trust_remote_code` prompt has no internal policy (platform boundary only); plugin isolation is process-level, not a container; rate limiting is per process; CSP permits inline styles/data fonts (ADR-012). `.factory/SECURITY_AUDIT.md` is **APPROVED** (0 CRITICAL / 0 HIGH; 1 accepted MEDIUM `sqlitedict`, 3 accepted LOW). The residuals above remain documented.
 
 ---
 
@@ -712,7 +712,7 @@ Summary: **35 Implemented**, **1 Skipped (environment)** (AC-35), **0 Not starte
 6. **AC-28..30 (plus the health endpoint AC-35 depends on)** — `create_app()` constructs, 14 API tests pass, OpenAPI is tested; `/api/v1/health` returns 200 in LIGHT.
 7. **AC-31..33 dashboard** — `dist/` exists, 10 routes/12 pages, SPA served by the API, external browser + Lighthouse pass reported.
 8. **AC-34 clean install** — wheel contains both packages and both console scripts; light-profile `doctor` and `serve` verified (reported clean-venv install not re-run here).
-9. **`.factory/SECURITY_AUDIT.md` absent** — the file now exists (audit `IN PROGRESS`, interim 0 findings, explicitly not an approval).
+9. ~~Security audit absent~~ — **resolved**: the file exists and is APPROVED (0 CRITICAL/0 HIGH), with residual risks documented.
 10. **TASKS progress counter** — now consistent at 9/14 (TASK-009 verified, TASK-012 in progress).
 11. **Attribution vs. packaging** — README rewritten for the fork, `CHANGELOG`/`SECURITY`/`CONTRIBUTING` added, headers preserved; runtime banner still references heretic-project.org by design (upstream identity), documented rather than "fixed".
 12. **Quality gate** — closed at 11:20Z: `ruff format --check src tests` → 144 files formatted; `ruff check --extend-select I src tests` → "All checks passed!" (a per-file `E402` ignore for `src/heretic/main.py` documents the intentional upstream import order, and the shim call sites are sorted). `ty check src/fsociety` → 1 warning, no errors.
@@ -725,7 +725,7 @@ Summary: **35 Implemented**, **1 Skipped (environment)** (AC-35), **0 Not starte
 16. **ADR-003 claims CI runs a light profile and an engine profile** — now true (CI has `platform`, `quality`, `engine`, `frontend`, `upstream-model-tests` jobs), but the light job installs from `deployment/docker/requirements-platform.txt` with `--no-deps -e .`, a different path than the documented `pip install ".[api]"`; divergence risk remains.
 17. **AC-35 cannot be closed on this host.** Dockerfile/compose exist; no daemon → image build and container health check are unverified, reported as skipped.
 18. **`src/heretic` is no longer byte-identical to upstream** (ADR-011). The SPEC's "untouched" phrasing must be read as "no behavioural change beyond the documented alias shim"; BC-007 encodes that.
-19. **Security approval is the only delivery blocker left.** `.factory/SECURITY_AUDIT.md` is `IN PROGRESS` with an interim 0-finding count and unchecked checklist items; the exit gate (§6, item 5) is therefore not met.
+19. ~~Security approval is the only delivery blocker~~ — **resolved**: `.factory/SECURITY_AUDIT.md` is APPROVED (0 CRITICAL/0 HIGH). Remaining delivery gaps are environmental: Docker image build and GPU execution unverified.
 20. **The CI workflow has not been observed green on GitHub Actions.** Local equivalents pass; the report states this explicitly. Docker and frontend jobs remain unexecuted in this environment.
 
 ---
@@ -788,6 +788,6 @@ docker build -f deployment/docker/Dockerfile .
 | E-15 | Types | `ty check src/fsociety --ignore import-not-found` | 1 warning (redundant condition in `core/hardware.py:121`), 0 errors; CI does not run `--error-on-warning` |
 | E-16 | Frontend build | not runnable (`node`/`npm` absent) | `frontend/dist` exists (2.7 MB), 12 pages, 10 nav routes; `typescript`/`vite` build, browser E2E and Lighthouse a11y 1.0 reported in `FINAL_PROJECT_REPORT.md` §5.5 |
 | E-17 | Docker | not runnable (no daemon) | `deployment/docker/{Dockerfile,docker-compose.yml}` present; **image build unverified** |
-| E-18 | Security audit | `.factory/SECURITY_AUDIT.md` | `IN PROGRESS`, interim 0/0/0/0, explicitly "not a release approval" |
+| E-18 | Security audit | `.factory/SECURITY_AUDIT.md` | **APPROVED** — 0 CRITICAL / 0 HIGH; 1 accepted MEDIUM (sqlitedict) + 3 accepted LOW |
 | E-19 | OpenAPI + docs routes | `curl /api/openapi.json`, `/api/docs` on a live server | **200** both; schema is OpenAPI 3.1.0 titled "FSOCIETY AI API"; docs guide paths match the app (`docs_url=/api/docs`, `openapi_url=/api/openapi.json`) |
 | E-20 | API route count | `grep -c '@router.(get\|post\|delete\|put)' routes/*.py` | **35** handlers (matches documentation) |

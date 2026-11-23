@@ -221,14 +221,14 @@ Execution: `plugins/isolation.py::run_isolated()` spawns `python -m fsociety.plu
 
 - `pytest` configured in `pyproject.toml`: `testpaths=["tests"]`, `pythonpath=["src"]`, `addopts="-ra"`, markers `gpu`, `engine`, `api`.
 - 30 test modules: `tests/unit` (foundation, optimizer, planner, model manager, engine adapter, evaluation, graders, regression, plugins, exporters, jobs), `tests/api`, `tests/security` (policy, report redaction, SBOM), `tests/integration` (CLI, evaluation API), plus the 6 upstream modules.
-- Measured: **472 collected, 0 errors**. LIGHT → **471 passed, 6 skipped** (the 5 skipped are upstream torch-dependent modules). ENGINE → **498 passed, 3 skipped**.
+- Measured: **474 collected, 0 errors**. LIGHT → **473 passed, 6 skipped** (the 5 skipped are upstream torch-dependent modules). ENGINE → **500 passed, 3 skipped**.
 - Adversarial fixtures live in `tests/fixtures/plugins/` (crashing, looping, noisy, invalid API version, wrong base, missing dependency, unknown permission).
 
 ### 6.3 What can and cannot run here
 
 | Suite | Requires | Status on this machine |
 | :--- | :--- | :--- |
-| `test_config.py` and platform unit/api/security/integration tests | pydantic, fastapi, stdlib | **Runs (LIGHT)**: 471 passed / 6 skipped |
+| `test_config.py` and platform unit/api/security/integration tests | pydantic, fastapi, stdlib | **Runs (LIGHT)**: 473 passed / 6 skipped |
 | Upstream torch-dependent modules | torch, transformers | **Runs (ENGINE)**: 47 upstream tests OK; skipped in LIGHT |
 | `tests/run_tests.py` | full engine + network + disk | **Not executed** — downloads and mutates HF models; should not run blind |
 | `tests/unit/test_optimizer.py` | optuna | Runs in ENGINE; skipped/marked in LIGHT |
@@ -287,7 +287,7 @@ Note: `CHANGELOG.md`, `SECURITY.md`, `CONTRIBUTING.md` now exist, so the sdist `
 | `.python-version` | `3.12` | Mismatch with the interpreter actually used |
 | `.venv/` | exists but **has no `bin/python`** | No project virtualenv is usable; everything ran against system site-packages with `PYTHONPATH=src` |
 | Installed (LIGHT venv `/tmp/opencode/fsociety-venv`) | `pydantic 2.14.x`, `pydantic-settings`, `fastapi`, `pytest`, `ruff`, `ty` | Platform tests, lint and CLI smoke run |
-| Installed (ENGINE venv `/tmp/opencode/engine-env`) | torch, transformers, optuna, lm-eval 0.4.13, engine deps | Engine suite (498 passed) and upstream suite (47 OK) run |
+| Installed (ENGINE venv `/tmp/opencode/engine-env`) | torch, transformers, optuna, lm-eval 0.4.13, engine deps | Engine suite (500 passed) and upstream suite (47 OK) run |
 | Accelerators | `nvidia-smi` not found; no GPU | GPU tests are skipped, never passed |
 | CPU / RAM | Intel i5-8250U, 8 logical cores, 15.4 GiB RAM | Real model work impractical even with torch |
 | Node toolchain | `node`/`npm` **not on PATH**; `frontend/node_modules/` and `frontend/dist/` exist | Build artifact inspectable; rebuild and typecheck not reproducible here |
@@ -307,7 +307,7 @@ Note: `CHANGELOG.md`, `SECURITY.md`, `CONTRIBUTING.md` now exist, so the sdist `
 | G-04 | Dashboard missing shell/styles/pages | — | **Closed** (12 pages, 10 routes, `dist/` built); rebuild env-skipped |
 | G-05 | Engine config mapped `sequence_length` → `max_response_length` | — | **Closed** (explicit `max_response_length`; adapter tests) |
 | G-06 | No engine startup/config/adapter tests | — | **Closed** (`test_engine_adapter.py`, 16 tests; upstream 47 OK) |
-| G-07 | Platform tests missing (model manager, evaluation, plugins, exporters, security) | — | **Closed** (30 modules, 472 collected) |
+| G-07 | Platform tests missing (model manager, evaluation, plugins, exporters, security) | — | **Closed** (30 modules, 474 collected) |
 | G-08 | `.factory/SECURITY_AUDIT.md` absent | — | **Closed as a file**; content is `IN PROGRESS`, not an approval |
 | G-09 | No Dockerfile, frontend CI, SBOM/audit step | — | **Partially closed** — Dockerfile + frontend CI exist; Docker build unverified; no SBOM CI gate |
 | G-10 | Platform documentation absent | — | **Closed** (9 guides + README + policy/changelog + `docs/reports/FINAL_PROJECT_REPORT.md`) |

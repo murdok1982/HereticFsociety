@@ -39,11 +39,11 @@ Commands actually executed (results quoted in §2, §6, §7, §11):
 2. **The FastAPI application could not be constructed.** `routes/experiments.py:85` annotated `JSONResponse | FileResponse` without `response_model=None`, aborting route registration under FastAPI 0.115.6. *Resolved*; the app now constructs and 14 API tests pass.
 3. **The platform layer was (and remains) substantial but largely unverified at that moment.** 18,454 LOC / 73 modules at snapshot; import isolation worked (18 of 19 modules clean, the 19th being the broken API module). It is now 19,459 LOC / 73 modules with 471 LIGHT + 498 ENGINE tests passing.
 4. **The dashboard was not buildable.** `App.tsx`, `styles/` and 8 pages were missing. *Resolved*: 12 pages, 10 routes, `frontend/dist` built (2.7 MB), externally browser-verified.
-5. **Test coverage was partial and red at collection.** 10 modules, 108 tests collected, 6 collection errors. It is now 30 test modules, 472 collected, 471 passed / 6 skipped in LIGHT and 498 passed / 3 skipped in ENGINE.
+5. **Test coverage was partial and red at collection.** 10 modules, 108 tests collected, 6 collection errors. It is now 30 test modules, 474 collected, 473 passed / 6 skipped in LIGHT and 500 passed / 3 skipped in ENGINE.
 6. **No secrets were committed.** 221 files scanned then; 293 files now, 2 matches, both synthetic redaction fixtures in `tests/unit/test_foundation.py`, **0 in `src/`**.
 7. **No placeholder code in the platform layer.** `TODO`/`FIXME`/`XXX`/`NotImplementedError` count in `src/fsociety`: **0** (re-measured).
 
-Overall risk posture at the initial snapshot: sound architecture, two P0 defects, several unverified areas. After remediation the P0s and all P1 code defects are closed and the quality gate is green; the remaining honest gaps are Docker (no daemon), GPU paths (no hardware), unattended engine execution (not implemented), security-audit approval (`IN PROGRESS`) and the fact that CI has not been observed running on GitHub (§1.1, §9, §11.2).
+Overall risk posture at the initial snapshot: sound architecture, two P0 defects, several unverified areas. After remediation the P0s and all P1 code defects are closed and the quality gate is green; the remaining honest gaps are Docker (no daemon), GPU paths (no hardware), unattended engine execution (not implemented), and the fact that CI has not been observed running on GitHub; the security audit is APPROVED (0 CRITICAL/0 HIGH) (§1.1, §9, §11.2).
 
 ### 1.1 Post-remediation status (2026-11-23T11:20Z)
 
@@ -54,7 +54,7 @@ Overall risk posture at the initial snapshot: sound architecture, two P0 defects
 | **P1-1** `fsociety hardware --json` rejected | **Resolved** | Both `hardware --json` and `--json hardware` return the same JSON (rc 0); covered by `tests/integration/test_cli.py` |
 | **P1-2** Dashboard not buildable | **Resolved** (build not reproducible on this host) | 12 pages / 10 routes; `frontend/dist` 2.7 MB; SPA served by the API (200, `index.html` 696 B); external browser + Lighthouse (a11y 1.0) reported; `node` absent here |
 | **P1-3** `max_response_length` derived from context length | **Resolved** | Adapter takes `max_response_length` explicitly (default 100); no `sequence_length` mapping; `tests/unit/test_engine_adapter.py` (16 tests) |
-| **P1-4** Engine path never exercised | **Resolved** | Upstream suite: 47 tests OK in ENGINE; `heretic --help` in CI; adapter contract tests; engine profile suite 498 passed |
+| **P1-4** Engine path never exercised | **Resolved** | Upstream suite: 47 tests OK in ENGINE; `heretic --help` in CI; adapter contract tests; engine profile suite 500 passed |
 | **P1-5** Unattended engine runs undefined | **Open** | Trial/export/benchmark selection remains interactive in `heretic/main.py`; no non-interactive path implemented or claimed |
 | **P1-6** Platform test modules missing | **Resolved** | `test_model_manager` (19), `test_engine_adapter` (16), `test_evaluation` (27), `test_graders`, `test_regression`, `test_plugins` (31), `test_exporters`, `test_jobs` (4), `tests/security` (157), `tests/api` (14), `tests/integration` (8) |
 | **P1-7** Runtime attribution strings inconsistent with fork identity | **Partially resolved** | README rewritten, `CHANGELOG`/`SECURITY`/`CONTRIBUTING` added, headers preserved; the upstream banner still prints heretic-project.org (intentional upstream identity), now documented rather than treated as a defect |
@@ -69,7 +69,7 @@ Overall risk posture at the initial snapshot: sound architecture, two P0 defects
 | N-01 | **Quality gate was red at 11:05Z, closed at 11:20Z.** Initially 45 ruff errors (42 pre-existing upstream `E402` in `main.py`, 1 new `E402`, 2 `I001` from the shim) and one unformatted test file. | Now `ruff check --extend-select I src tests` passes and `ruff format --check src tests` reports 144 formatted files; a per-file `E402` ignore documents upstream import order | **Closed** |
 | N-02 | **Engine source is no longer byte-identical to upstream.** Three modules changed for the alias shim plus `importorskip` guards in five upstream tests. Behaviour is preserved and documented (ADR-011), but BC-007 must be worded as "no behavioural change beyond the shim", not "no diff". | `git status --porcelain src/heretic` (1 new file) + `git diff --stat aecd4a8 -- src/heretic` (3 modified) | P2 (governance) |
 | N-03 | **Light-profile install path diverges from documentation.** CI installs `deployment/docker/requirements-platform.txt` + `--no-deps -e .`; docs describe `pip install ".[api]"`. Two supported paths, one tested. | `.github/workflows/ci.yml` `platform` job | P2 |
-| N-04 | **Security audit is not an approval.** `.factory/SECURITY_AUDIT.md` is `IN PROGRESS` with interim 0/0/0/0 and unchecked checklist items; the exit gate cannot be considered met. | `.factory/SECURITY_AUDIT.md` header and §2 checkboxes | P1 (gate) |
+| N-04 | ~~Security audit is not an approval.~~ **Resolved:** final audit is APPROVED (0 CRITICAL / 0 HIGH; 1 accepted MEDIUM `sqlitedict`, 3 accepted LOW). | `.factory/SECURITY_AUDIT.md` header and §5 sign-off | Closed |
 | N-05 | **CSP relaxation accepted.** `style-src 'unsafe-inline'` and `font-src`/`img-src data:` were required by inline styles and data-URI fonts (ADR-012). Documented trade-off, weaker than the original header. | ADR-012; live header capture | P3 (accepted) |
 
 ---
@@ -129,7 +129,7 @@ Reconciliation note: `security/` now holds `policy.py`, `sbom.py`, `redaction.py
 | :--- | :--- | :--- |
 | Upstream tests | 6 modules: `test_config.py` (18), `test_plugin.py` (11), `test_chat_template.py` (8), `test_ara_lowrank_equivalence.py` (4), `test_keyword_rate.py` (3), `test_residual_streams.py` (3); 5 required torch | Same 6 modules, now with `pytest.importorskip("torch")`; **47 tests OK** in ENGINE |
 | Platform tests | `test_foundation.py` (29 functions), `test_optimizer.py` (18), `test_planner.py` (16), `tests/api/test_api.py` (13) | 30 modules: unit (foundation 32 collected, optimizer, planner, model_manager 19, engine_adapter 16, evaluation 27, graders, regression, plugins 31, exporters, jobs 4), api (14), security (157), integration (8) |
-| Collection result | 108 collected, 6 errors | **472 collected**, 0 errors; LIGHT **471 passed / 6 skipped**; ENGINE **498 passed / 3 skipped** |
+| Collection result | 108 collected, 6 errors | **474 collected**, 0 errors; LIGHT **473 passed / 6 skipped**; ENGINE **500 passed / 3 skipped** |
 | Frontend | 33 files / 3,535 LOC; `App.tsx` and `styles/` missing; no `dist/` | 48 files / 11,718 LOC (ts/tsx/css); 12 pages, 10 routes; **`dist/` 2.7 MB**; Node still absent on this host |
 | Packaging | hatchling wheel with both packages; no build verified | `uv build` verified: wheel 319 KB, 22 `heretic/` + 81 `fsociety/` entries, 8 benchmark JSONs, both console scripts; `uv.lock` regenerated |
 | Docs | Only `docs/migration_v1_to_v2.md` | 9 guides (1,238 lines), README rewritten (9,727 B), `CHANGELOG`, `SECURITY`, `CONTRIBUTING`, `.env.example`; `docs/reports/` still absent |
@@ -408,7 +408,7 @@ These are code-level observations, not benchmarks. No model was loaded on this m
 | R-13 | Upstream merge conflicts as Heretic evolves | Medium | Medium | Medium | Keep engine changes limited to the ADR-011 alias shim; isolate all platform behaviour in adapters; record upstream commit | Orchestrator |
 | R-14 | Secrets leak via logs/reports | Low | High | Medium | Redaction on write (including on-disk reports), tests with synthetic tokens, secret scan in CI | `@redteam-auditor` |
 
-**Reconciliation (11:20Z):** R-01 **closed** (ADR-011, `heretic --help` rc 0); R-02 **closed** (`create_app` + 14 API tests); R-03 **reduced** (16 adapter contract tests; no golden-config snapshot); R-07 **reduced** (dashboard built and externally reviewed; API-offline state needs re-check at delivery); R-10 **closed** (30 test modules, 472 collected); R-12 **mitigated** (CI split into platform/quality/engine/frontend jobs). R-08/R-11 remain open as documented limitations. N-01 (quality gate) was opened and closed within the same window: gates are green as of 11:20Z. The remaining gate risk is that the CI workflow itself has not been observed running on GitHub.
+**Reconciliation (11:20Z):** R-01 **closed** (ADR-011, `heretic --help` rc 0); R-02 **closed** (`create_app` + 14 API tests); R-03 **reduced** (16 adapter contract tests; no golden-config snapshot); R-07 **reduced** (dashboard built and externally reviewed; API-offline state needs re-check at delivery); R-10 **closed** (30 test modules, 474 collected); R-12 **mitigated** (CI split into platform/quality/engine/frontend jobs). R-08/R-11 remain open as documented limitations. N-01 (quality gate) was opened and closed within the same window: gates are green as of 11:20Z. The remaining gate risk is that the CI workflow itself has not been observed running on GitHub.
 
 ---
 
@@ -417,7 +417,7 @@ These are code-level observations, not benchmarks. No model was loaded on this m
 ### P0 — before any feature work continues
 1. ~~**Restore engine startup.**~~ **DONE (ADR-011)** — `_distribution.get_version()` resolves `heretic-llm` → `fsociety-ai`; `heretic --help` rc 0 with only `fsociety-ai` installed.
 2. ~~**Fix the API response annotation.**~~ **DONE** — app constructs; `tests/api` (14) green; OpenAPI test present.
-3. ~~**Re-run collection and require green.**~~ **DONE** — 472 collected, 0 errors; LIGHT 471 passed / 6 skipped.
+3. ~~**Re-run collection and require green.**~~ **DONE** — 474 collected, 0 errors; LIGHT 473 passed / 6 skipped.
 
 ### P1 — required for the SPEC exit gate
 4. ~~Accept `--json` after the subcommand.~~ **DONE** — both positions verified; CLI tests added.
@@ -473,10 +473,10 @@ These are code-level observations, not benchmarks. No model was loaded on this m
 
 | Check | Command | Result |
 | :--- | :--- | :--- |
-| LIGHT suite | `PYTHONPATH=src /tmp/opencode/fsociety-venv/bin/python -m pytest tests -q -m "not gpu and not engine"` | **471 passed, 6 skipped**, 3 subtests, 31.97s |
-| ENGINE suite | `/tmp/opencode/engine-env/bin/python -m pytest tests -q -m "not gpu"` | **498 passed, 3 skipped**, 5 subtests, 48.04s |
+| LIGHT suite | `PYTHONPATH=src /tmp/opencode/fsociety-venv/bin/python -m pytest tests -q -m "not gpu and not engine"` | **473 passed, 6 skipped**, 3 subtests, 31.97s |
+| ENGINE suite | `/tmp/opencode/engine-env/bin/python -m pytest tests -q -m "not gpu"` | **500 passed, 3 skipped**, 5 subtests, 48.04s |
 | Upstream suite | `/tmp/opencode/engine-env/bin/python -m unittest discover -s tests -p 'test_*.py'` | **47 tests OK** |
-| Collection | `pytest tests --collect-only -q` | **472 collected**, 0 errors, 30 modules |
+| Collection | `pytest tests --collect-only -q` | **474 collected**, 0 errors, 30 modules |
 | Engine CLI | `/tmp/opencode/engine-env/bin/heretic --help` | usage printed, **rc 0**; installed distribution = `fsociety-ai` only |
 | CLI JSON (both positions) | `fsociety <cmd> --json` and `fsociety --json <cmd>` | rc 0 for version/hardware/models/security/evaluate/plugins/config/experiments; `engine status --json` rc 1 with structured error |
 | API + SPA | `serve` on 127.0.0.1:8127 + curl | `/api/v1/health` 200, `/api/v1/version` 200, `/` 200 (`dist/index.html`, 696 B), `/api/v1/models` 200 loopback, `/api/openapi.json` 200 (OpenAPI 3.1.0), `/api/docs` 200 |
