@@ -24,9 +24,56 @@ evaluation, experiment history, isolated plugins, a typed HTTP API and a dashboa
 
 ---
 
+## What's new in 3.0 — improvements and fixes
+
+### New platform capabilities
+
+| Area | What it adds |
+| :--- | :--- |
+| Hardware | CPU/RAM/NVIDIA/ROCm/torch/MPS detection with per-field provenance, confidence and a stable fingerprint |
+| Planning | Analytical weights/KV-cache/activation/overhead model, fit decisions and actionable alternatives |
+| Models | Torch-free inspection, exact safetensors parameter counts, Hugging Face cache inventory, SHA-256 manifests and verification |
+| Optimizer | Declarative search spaces, seeded Optuna TPE/random runs, trial persistence, cancellation and hardware-aware planning |
+| Evaluation | Seven original smoke suites, eight deterministic graders, real Transformers/llama.cpp backends, provenance-complete JSON + Markdown reports and strict comparability rules |
+| Experiments | SQLite (WAL) history for experiments, trials, jobs, events and artifacts, with JSON export |
+| Plugins | Versioned contract, permission/dependency validation, subprocess discovery and execution, seven example scorers |
+| Delivery | FastAPI `/api/v1`, React + TypeScript dashboard (ten sections), CLI (`fsociety`), verifiable export bundles, Docker CPU image, CI |
+
+### Corrections and security hardening
+
+| Issue | Correction |
+| :--- | :--- |
+| Engine crashed after the distribution rename | Added `heretic._distribution` alias so `heretic-llm` metadata lookups resolve to `fsociety-ai`; `heretic --help` works again |
+| Context length was written to `max_response_length` | Engine adapter now maps the correct Heretic setting only; no false context-length mapping |
+| Untrusted plugin discovery ran in the host process | Discovery and execution now run inside the isolation worker; a hostile module-level payload cannot execute in the API/CLI process |
+| Absolute model paths escaped the API workspace | Filesystem references are confined to the workspace/models directory (`400 unsafe_path`); Hub ids still work |
+| CSRF on loopback state-changing endpoints | `OriginCheckMiddleware` rejects foreign and `null` origins |
+| Oversized/chunked bodies bypassed the size cap | Chunked bodies without `Content-Length` → `413`; compressed bodies → `415` |
+| Static assets were rate-limited | Rate limiting now applies only to `/api/*`; the dashboard no longer loses its CSS/JS under load |
+| Reports could persist credential-shaped strings | JSON and Markdown reports pass through secret redaction before writing |
+| CSP blocked bundled fonts/styles | CSP now permits data-URI fonts and the dashboard's inline style attributes; scripts remain `'self'` only |
+| Engine dependencies had known advisories | Security floors for Pillow, certifi, filelock, nltk, dnspython and pyasn1; engine profile is marker-gated to Python 3.11+ |
+| Light installs failed to collect engine tests | Upstream engine tests skip explicitly when torch is absent instead of failing collection |
+| Install docs described an invalid lightweight command | Documented `--no-deps` + `deployment/docker/requirements-platform.txt` and the Python 3.10/3.11 split |
+
+### Corrections to this README
+
+* The Heretic **algorithms, CLI, configuration keys, plugin contracts, exports and
+  reproducibility manifests are preserved**; "untouched" now refers to behaviour, not to a
+  byte-identical source tree. The only engine changes are the distribution-name shim and
+  test-only skip guards (documented in ADR-011).
+* Engine dependencies are installed automatically on **Python 3.11+**. On Python 3.10 the
+  package installs the light/API profile only and reports the engine as unavailable.
+* `fsociety evaluate` reports are smoke-suite results, not official benchmark scores.
+
+Full evidence and residual risks: [final report](docs/reports/FINAL_PROJECT_REPORT.md) and
+[security audit](.factory/SECURITY_AUDIT.md).
+
+---
+
 ## What is preserved from Heretic
 
-The complete `heretic` package is untouched:
+The Heretic engine—algorithms, CLI, configuration, plugin contracts and reproducibility—is preserved:
 
 * Arbitrary-Rank Ablation (ARA) and directional ablation (abliteration)
 * Refusal suppression, slop/humor/sycophancy modification, response-length steering
@@ -36,7 +83,9 @@ The complete `heretic` package is untouched:
 * Reproducibility manifests and the Heretic Grimoire workflow
 * The `heretic` command and `import heretic`
 
-FSOCIETY AI adds the `fsociety` package and command alongside it.
+FSOCIETY AI adds the `fsociety` package and command alongside it. The only engine source
+changes are the distribution metadata shim and skip guards in upstream tests; no algorithms,
+serialization or configuration semantics changed.
 
 ---
 
@@ -59,8 +108,9 @@ uv pip install --no-deps -e .
 uv pip install -r deployment/docker/requirements-platform.txt
 ```
 
-Installing `fsociety-ai` also installs the original Heretic engine dependencies, so
-existing workflows keep working. The already-published `heretic-llm` distribution is
+On Python 3.11+, installing `fsociety-ai` also installs the original Heretic engine
+dependencies, so existing workflows keep working. On 3.10 only the light/API profile is
+installed (engine dependencies are marker-gated). The already-published `heretic-llm` distribution is
 superseded; see the [migration guide](docs/guides/MIGRATION.md).
 
 ---
