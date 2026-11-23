@@ -22,6 +22,8 @@ from accelerate.utils import (
     is_xpu_available,
 )
 
+from ._distribution import get_distribution, get_version
+
 
 def empty_cache():
     """Clears the backend cache and collects garbage."""
@@ -166,7 +168,7 @@ def get_heretic_version_info() -> HereticVersionInfo:
     package_name = "heretic-llm"
     origin_metadata: dict[str, Any] = {"type": "unknown"}
     # This package must be installed for this code to run.
-    distribution = importlib.metadata.distribution(package_name)
+    distribution = get_distribution(package_name)
 
     base_version = distribution.version.lstrip("v")
 
@@ -416,7 +418,7 @@ def get_package_version(name: str) -> str:
 
     # Normalize name: pip considers hyphens and underscores equivalent.
     normalized_name = name.lower().replace("_", "-")
-    version_str = importlib.metadata.version(normalized_name)
+    version_str = get_version(normalized_name)
     return version_str.split("+")[0] if "+" in version_str else version_str
 
 
@@ -440,7 +442,7 @@ def get_requirements_dict() -> dict[str, str]:
         visited.add(normalized_package)
 
         try:
-            distribution = importlib.metadata.distribution(normalized_package)
+            distribution = get_distribution(normalized_package)
             required_packages.add(normalized_package)
             if distribution.requires:
                 for requirement in distribution.requires:

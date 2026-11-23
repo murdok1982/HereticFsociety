@@ -11,7 +11,6 @@ import tempfile
 import traceback
 from dataclasses import dataclass
 from datetime import datetime, timezone
-from importlib.metadata import version
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, TypeVar
 
@@ -30,6 +29,7 @@ from psutil import Process
 from questionary import Question
 from rich.console import Console
 
+from ._distribution import get_version
 from .config import DatasetSpecification, Settings, SingleDatasetSpecification
 from .system import (
     get_accelerator_info_dict,
@@ -346,7 +346,7 @@ def get_readme_intro(
 
     return f"""# This is a {settings.modified_model_type} version of {
         model_link
-    }, made using [Heretic](https://heretic-project.org) v{version("heretic-llm")}
+    }, made using [Heretic](https://heretic-project.org) v{get_version()}
 {reproducibility_instructions}
 ## {modifier.modifier_name} parameters
 

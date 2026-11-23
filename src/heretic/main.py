@@ -54,7 +54,6 @@ import random
 import re
 import time
 import warnings
-from importlib.metadata import version
 from os.path import commonprefix
 from pathlib import Path
 from typing import Any, cast
@@ -82,6 +81,7 @@ from rich.markup import escape
 from rich.table import Table
 from rich.text import Text
 
+from ._distribution import get_version
 from .config import (
     DatasetSpecification,
     ExportStrategy,
@@ -196,7 +196,7 @@ def obtain_export_strategy(
 
 def run():
     # Modified "Pagga" font from https://budavariam.github.io/asciiart-text/
-    print(f"[cyan]█░█░█▀▀░█▀▄░█▀▀░▀█▀░█░█▀▀[/]  v{version('heretic-llm')}")
+    print(f"[cyan]█░█░█▀▀░█▀▄░█▀▀░▀█▀░█░█▀▀[/]  v{get_version()}")
     print(
         "[cyan]█▀█░█▀▀░█▀▄░█▀▀░░█░░█░█░░[/]  [blue underline]https://heretic-project.org[/]"
     )

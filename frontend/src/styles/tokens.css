@@ -1,0 +1,89 @@
+/* FSOCIETY AI — design tokens. Single source of truth for colour, type, space. */
+
+:root {
+  color-scheme: dark;
+
+  /* Surfaces */
+  --bg: #0b0f12;
+  --bg-raised: #0a1016;
+  --surface: #0d1520;
+  --surface-2: #111b27;
+  --surface-3: #16222f;
+  --surface-hover: #162433;
+  --surface-inset: #091018;
+
+  /* Lines */
+  --border: #1c2836;
+  --border-strong: #2a3b4e;
+  --border-subtle: #141f2a;
+
+  /* Text */
+  --text: #e8eff6;
+  --text-muted: #9aafc2;
+  --text-dim: #7d93a8;
+  --text-inverse: #04140c;
+
+  /* Accents */
+  --accent: #3dffa2;
+  --accent-strong: #19e88a;
+  --accent-soft: rgba(61, 255, 162, 0.1);
+  --accent-line: rgba(61, 255, 162, 0.42);
+
+  --danger: #ff5c5c;
+  --danger-soft: rgba(255, 92, 92, 0.1);
+  --danger-line: rgba(255, 92, 92, 0.42);
+
+  --warning: #ffc857;
+  --warning-soft: rgba(255, 200, 87, 0.1);
+  --warning-line: rgba(255, 200, 87, 0.4);
+
+  --info: #6bb7ff;
+  --info-soft: rgba(107, 183, 255, 0.1);
+  --info-line: rgba(107, 183, 255, 0.4);
+
+  /* Typography */
+  --font-sans: "Inter Variable", "Inter", system-ui, -apple-system, "Segoe UI",
+    sans-serif;
+  --font-mono: "JetBrains Mono Variable", "JetBrains Mono", ui-monospace,
+    "SFMono-Regular", Menlo, monospace;
+
+  --text-xs: 0.6875rem;
+  --text-sm: 0.75rem;
+  --text-base: 0.875rem;
+  --text-md: 0.9375rem;
+  --text-lg: 1.0625rem;
+  --text-xl: 1.3125rem;
+  --text-2xl: 1.625rem;
+
+  /* Spacing — 8px rhythm with a 4px half-step */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+
+  /* Radii */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius: 10px;
+  --radius-lg: 14px;
+  --radius-pill: 999px;
+
+  /* Elevation */
+  --shadow-1: 0 1px 0 rgba(255, 255, 255, 0.02),
+    0 10px 30px -22px rgba(0, 0, 0, 0.85);
+  --shadow-2: 0 30px 70px -28px rgba(0, 0, 0, 0.8);
+  --shadow-focus: 0 0 0 2px var(--bg), 0 0 0 4px var(--accent);
+
+  /* Motion */
+  --transition: 150ms cubic-bezier(0.2, 0.6, 0.3, 1);
+  --transition-slow: 180ms cubic-bezier(0.2, 0.6, 0.3, 1);
+
+  /* Layout */
+  --sidebar-width: 260px;
+  --topbar-height: 60px;
+  --content-max: 1440px;
+}

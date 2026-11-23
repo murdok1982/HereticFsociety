@@ -1,0 +1,91 @@
+{
+  "suite_id": "instruction_following",
+  "name": "Instruction Following (smoke)",
+  "version": "1.0.0",
+  "description": "Small original suite of declarative formatting constraints (word counts, bullets, prefixes, regexes, JSON shape). The grader checks every constraint declared in item metadata; no natural-language judge is involved.",
+  "grader": "instruction_format",
+  "language": "en",
+  "tags": ["instruction-following", "formatting", "smoke"],
+  "provenance": "Hand-written by the FSOCIETY AI maintainers. This is NOT IFEval or any official instruction-following benchmark; no items were copied. Constraints are machine-checkable and intentionally narrow.",
+  "limitations": [
+    "Ten items only; constraint compliance is not general instruction-following ability.",
+    "Checks are syntactic (counts, regexes, JSON shape) and cannot judge helpfulness or truth.",
+    "Word counting is whitespace-based and may differ from a human's count.",
+    "Adversarial paraphrases are not covered."
+  ],
+  "items": [
+    {
+      "item_id": "if-001",
+      "prompt": "List exactly three benefits of automated unit tests as three bullet points. Start every bullet with '- '.",
+      "expected": "Three bullet lines starting with '- '.",
+      "category": "bullet-count",
+      "metadata": {"min_bullets": 3, "max_bullets": 3}
+    },
+    {
+      "item_id": "if-002",
+      "prompt": "Describe a fictional command-line tool as a JSON object with exactly the keys \"name\" and \"version\". Reply with JSON only.",
+      "expected": "{\"name\": \"tool\", \"version\": \"1.0.0\"}",
+      "category": "json",
+      "metadata": {"json_object": true, "json_keys": ["name", "version"]}
+    },
+    {
+      "item_id": "if-003",
+      "prompt": "Write one sentence of at most 12 words explaining why reproducible builds matter.",
+      "expected": "A single sentence of 12 words or fewer.",
+      "category": "word-limit",
+      "metadata": {"min_words": 3, "max_words": 12}
+    },
+    {
+      "item_id": "if-004",
+      "prompt": "Start your answer with the exact token 'Verdict:' and then state in one sentence whether caching this query is safe.",
+      "expected": "Verdict: ...",
+      "category": "prefix",
+      "metadata": {"must_start_with": ["Verdict:"]}
+    },
+    {
+      "item_id": "if-005",
+      "prompt": "Explain in two sentences how to retry a failed request, and end with the exact phrase 'No further action.'",
+      "expected": "Two sentences ending with 'No further action.'",
+      "category": "suffix",
+      "metadata": {"must_end_with": "No further action.", "min_words": 5, "max_words": 80}
+    },
+    {
+      "item_id": "if-006",
+      "prompt": "Reply with exactly two numbered lines in the format '1. ' and '2. ' listing two backup verification steps.",
+      "expected": "1. ...\n2. ...",
+      "category": "numbered-list",
+      "metadata": {"min_bullets": 2, "max_bullets": 2, "max_lines": 2}
+    },
+    {
+      "item_id": "if-007",
+      "prompt": "Explain what a cryptographic hash is in between 20 and 40 words.",
+      "expected": "An explanation of 20 to 40 words.",
+      "category": "word-range",
+      "metadata": {"min_words": 20, "max_words": 40}
+    },
+    {
+      "item_id": "if-008",
+      "prompt": "Describe a safe deployment practice using the word 'rollback'. Do not use the word 'YOLO'.",
+      "expected": "A sentence containing 'rollback' and not 'YOLO'.",
+      "category": "required-regex",
+      "metadata": {
+        "required_regexes": ["\\brollback\\b"],
+        "forbidden_regexes": ["\\bYOLO\\b"]
+      }
+    },
+    {
+      "item_id": "if-009",
+      "prompt": "Answer with a single line and no line breaks: what is the capital of France?",
+      "expected": "Paris",
+      "category": "line-limit",
+      "metadata": {"max_lines": 1}
+    },
+    {
+      "item_id": "if-010",
+      "prompt": "List at least three logging best practices as bullet points beginning with '- '.",
+      "expected": "At least three bullet lines.",
+      "category": "bullet-count",
+      "metadata": {"min_bullets": 3}
+    }
+  ]
+}

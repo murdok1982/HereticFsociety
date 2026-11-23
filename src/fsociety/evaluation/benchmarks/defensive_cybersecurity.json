@@ -1,0 +1,153 @@
+{
+  "suite_id": "defensive_cybersecurity",
+  "name": "Defensive Cybersecurity (smoke)",
+  "version": "1.0.0",
+  "description": "Small original suite covering defensive security only: detection, secure coding, incident response, hardening and vulnerability understanding. Items ask for controls and explanations; none request offensive tooling, exploit code or attack instructions.",
+  "grader": "defensive_cyber_rubric",
+  "language": "en",
+  "tags": ["security", "defensive", "blue-team", "smoke"],
+  "provenance": "Hand-written by the FSOCIETY AI maintainers. This is NOT CyberSecEval, SecBench or any official security benchmark; no items were copied. The suite assesses whether a model can describe standard defensive controls and does not test offensive capability.",
+  "limitations": [
+    "Ten items only; not a security certification or a measure of practical skill.",
+    "Grading uses a keyword rubric, so a response can list concepts without deep understanding.",
+    "Defensive guidance is generic and not tailored to a specific threat model or stack.",
+    "Absence of offensive content in this suite does not guarantee safe model behaviour elsewhere."
+  ],
+  "items": [
+    {
+      "item_id": "dc-001",
+      "prompt": "Describe two controls that prevent SQL injection in a web application.",
+      "expected": "Parameterized queries and allowlist validation.",
+      "category": "secure-coding",
+      "metadata": {
+        "key_concepts": [
+          "parameterized queries|prepared statements|query parameters",
+          "input validation|allowlist|whitelist"
+        ],
+        "min_score": 0.6
+      }
+    },
+    {
+      "item_id": "dc-002",
+      "prompt": "Explain how a team should store user passwords securely.",
+      "expected": "Salted password hashing with a slow algorithm.",
+      "category": "secrets",
+      "metadata": {
+        "key_concepts": ["hash|hashing|bcrypt|argon2|scrypt|pbkdf2", "salt|salted"],
+        "min_score": 0.6
+      }
+    },
+    {
+      "item_id": "dc-003",
+      "prompt": "List the first three steps of an incident response process after malware is detected on a workstation.",
+      "expected": "Contain, preserve evidence, notify.",
+      "category": "incident-response",
+      "metadata": {
+        "key_concepts": [
+          "contain|isolate|quarantine|disconnect",
+          "evidence|forensic|preserve|log",
+          "notify|escalat|report|incident response team"
+        ],
+        "min_score": 0.6
+      }
+    },
+    {
+      "item_id": "dc-004",
+      "prompt": "What signals in an email suggest a phishing attempt? Name at least three.",
+      "expected": "Lookalike sender, suspicious link, urgency.",
+      "category": "detection",
+      "metadata": {
+        "key_concepts": [
+          "sender|domain|address|spoof",
+          "link|url|attachment",
+          "urgency|urgent|pressure|threat",
+          "grammar|spelling|generic greeting"
+        ],
+        "min_score": 0.6
+      }
+    },
+    {
+      "item_id": "dc-005",
+      "prompt": "How can an organization reduce the impact of ransomware using backups?",
+      "expected": "Offline/immutable backups that are tested and regularly scheduled.",
+      "category": "resilience",
+      "metadata": {
+        "key_concepts": [
+          "offline|immutable|air-gapped|isolated",
+          "test|restore|verify|rehearse",
+          "regular|frequency|schedule|daily|automatic"
+        ],
+        "min_score": 0.6
+      }
+    },
+    {
+      "item_id": "dc-006",
+      "prompt": "Explain the principle of least privilege for service accounts and how to enforce it.",
+      "expected": "Minimal permissions, scoped access, regular review.",
+      "category": "access-control",
+      "metadata": {
+        "key_concepts": [
+          "minimal|least|minimum|needed",
+          "permission|privilege|access|role",
+          "audit|review|monitor|rotate"
+        ],
+        "min_score": 0.6
+      }
+    },
+    {
+      "item_id": "dc-007",
+      "prompt": "How should a developer handle untrusted input in a REST API?",
+      "expected": "Schema validation, rejection with errors, size limits.",
+      "category": "secure-coding",
+      "metadata": {
+        "key_concepts": [
+          "validate|validation|schema|sanitize",
+          "reject|error|400|refuse",
+          "limit|maximum|length|size|rate"
+        ],
+        "min_score": 0.6
+      }
+    },
+    {
+      "item_id": "dc-008",
+      "prompt": "What does a CVSS base score communicate, and what should you check before acting on it?",
+      "expected": "Severity, exploitability, environmental context.",
+      "category": "vulnerability-management",
+      "metadata": {
+        "key_concepts": [
+          "severity|score|impact",
+          "exploitability|attack vector|complexity|privileges",
+          "context|environment|asset|exposure|reachable"
+        ],
+        "min_score": 0.6
+      }
+    },
+    {
+      "item_id": "dc-009",
+      "prompt": "Describe how centralized log monitoring helps detect intrusions.",
+      "expected": "Aggregation, alerting on anomalies, retention for triage.",
+      "category": "monitoring",
+      "metadata": {
+        "key_concepts": [
+          "central|aggregat|correlat|collect",
+          "alert|anomal|threshold|detect",
+          "retention|review|triage|investigate"
+        ],
+        "min_score": 0.6
+      }
+    },
+    {
+      "item_id": "dc-010",
+      "prompt": "How do you harden a public TLS endpoint? Name two measures.",
+      "expected": "Modern TLS versions, strong ciphers, HSTS.",
+      "category": "hardening",
+      "metadata": {
+        "key_concepts": [
+          "tls 1.2|tls 1.3|modern|protocol",
+          "certificate|hsts|cipher|forward secrecy"
+        ],
+        "min_score": 0.6
+      }
+    }
+  ]
+}

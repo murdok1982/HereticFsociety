@@ -1,0 +1,24 @@
+services:
+  fsociety:
+    build:
+      context: ../..
+      dockerfile: deployment/docker/Dockerfile
+    image: fsociety-ai:3.0.0-cpu
+    ports:
+      # Loopback only by default. Put a TLS reverse proxy in front for remote use.
+      - "127.0.0.1:8000:8000"
+    environment:
+      FSOCIETY_API_HOST: "0.0.0.0"
+      FSOCIETY_API_PORT: "8000"
+      # Required for any non-loopback client (including the host browser):
+      # FSOCIETY_API_KEY: "${FSOCIETY_API_KEY:?set FSOCIETY_API_KEY}"
+      FSOCIETY_TRUST_REMOTE_CODE: "never"
+      FSOCIETY_PLUGIN_ISOLATION: "true"
+      FSOCIETY_PLUGIN_ALLOW_NETWORK: "false"
+      FSOCIETY_EVALUATION_SEED: "42"
+    volumes:
+      - fsociety-data:/data
+    restart: unless-stopped
+
+volumes:
+  fsociety-data:

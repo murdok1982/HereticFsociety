@@ -1,0 +1,88 @@
+{
+  "suite_id": "spanish_language",
+  "name": "Spanish Language (smoke)",
+  "version": "1.0.0",
+  "description": "Small original Spanish-language suite graded by a lexical heuristic (Spanish function words and accented characters) plus required-term coverage. Answers must be Spanish sentences that include the expected fact.",
+  "grader": "spanish_language",
+  "language": "es",
+  "tags": ["spanish", "multilingual", "heuristic", "smoke"],
+  "provenance": "Hand-written by the FSOCIETY AI maintainers. This is NOT a Spanish MMLU translation, SpanishBench or any official multilingual benchmark; no items were copied. It is a lightweight check that a model can answer simple factual prompts in Spanish.",
+  "limitations": [
+    "Ten items only and all very simple; not a measure of Spanish fluency.",
+    "Language detection is a lexical heuristic (function words plus accents), not a language model.",
+    "Short answers with no function words are penalised even when correct Spanish.",
+    "Required terms are keyword checks; they do not verify grammaticality or completeness."
+  ],
+  "items": [
+    {
+      "item_id": "es-001",
+      "prompt": "Responde en una sola frase en español: ¿cuál es la capital de Australia?",
+      "expected": "La capital de Australia es Canberra.",
+      "category": "geografia",
+      "metadata": {"required_terms": ["canberra"]}
+    },
+    {
+      "item_id": "es-002",
+      "prompt": "Responde en una sola frase en español: ¿cuántos días tiene una semana?",
+      "expected": "Una semana tiene siete días.",
+      "category": "conocimiento",
+      "metadata": {"required_terms": ["siete"]}
+    },
+    {
+      "item_id": "es-003",
+      "prompt": "Explica en una frase en español por qué es importante hacer copias de seguridad.",
+      "expected": "Las copias de seguridad permiten recuperar datos tras una pérdida.",
+      "category": "tecnologia",
+      "metadata": {"required_terms": ["copia|respaldo"]}
+    },
+    {
+      "item_id": "es-004",
+      "prompt": "Responde en una frase en español: ¿qué órgano bombea la sangre por el cuerpo humano?",
+      "expected": "El corazón bombea la sangre.",
+      "category": "biologia",
+      "metadata": {"required_terms": ["corazón|corazon"]}
+    },
+    {
+      "item_id": "es-005",
+      "prompt": "Responde en una frase en español: ¿en qué continente se encuentra Egipto?",
+      "expected": "Egipto se encuentra en África.",
+      "category": "geografia",
+      "metadata": {"required_terms": ["áfrica|africa"]}
+    },
+    {
+      "item_id": "es-006",
+      "prompt": "Escribe una frase en español sobre la importancia de las pruebas automatizadas.",
+      "expected": "Las pruebas automatizadas detectan errores antes de publicar.",
+      "category": "tecnologia",
+      "metadata": {"required_terms": ["prueba|test"]}
+    },
+    {
+      "item_id": "es-007",
+      "prompt": "Responde en una frase en español: ¿cuál es el símbolo químico del oro?",
+      "expected": "El símbolo químico del oro es Au.",
+      "category": "ciencia",
+      "metadata": {"required_terms": ["au"]}
+    },
+    {
+      "item_id": "es-008",
+      "prompt": "Responde en una frase en español: ¿qué significa la sigla CPU?",
+      "expected": "CPU significa unidad central de proceso.",
+      "category": "tecnologia",
+      "metadata": {"required_terms": ["unidad central de proceso|procesador"]}
+    },
+    {
+      "item_id": "es-009",
+      "prompt": "Responde en una frase en español: ¿cuál es el océano más grande del planeta?",
+      "expected": "El océano más grande es el Pacífico.",
+      "category": "geografia",
+      "metadata": {"required_terms": ["pacífico|pacifico"]}
+    },
+    {
+      "item_id": "es-010",
+      "prompt": "Explica en una frase en español qué características tiene una contraseña segura.",
+      "expected": "Una contraseña segura es larga, única y difícil de adivinar.",
+      "category": "seguridad",
+      "metadata": {"required_terms": ["contraseña|clave"]}
+    }
+  ]
+}

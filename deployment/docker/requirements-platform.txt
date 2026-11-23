@@ -1,0 +1,16 @@
+# Lightweight platform runtime (no torch/transformers).
+# Used by the CPU container image and by the light CI profile.
+fastapi>=0.115,<1.0
+uvicorn[standard]>=0.30,<1.0
+httpx>=0.27,<1.0
+pydantic>=2.9
+pydantic-settings>=2.5
+rich>=13
+tomli>=2.0; python_version < "3.11"
+tomli-w>=1.0
+psutil>=6
+py-cpuinfo>=9
+numpy>=2,<3
+optuna>=4
+huggingface-hub>=0.27
+langdetect>=1.0.9

@@ -1,0 +1,102 @@
+{
+  "suite_id": "knowledge_core",
+  "name": "Knowledge Core (smoke)",
+  "version": "1.0.0",
+  "description": "Small original smoke suite for general factual knowledge. Answers are graded by normalized term containment, so wording may vary as long as the expected fact appears.",
+  "grader": "contains_expected",
+  "language": "en",
+  "tags": ["knowledge", "smoke", "english"],
+  "provenance": "Hand-written by the FSOCIETY AI maintainers for internal smoke testing. This is NOT MMLU, ARC, TriviaQA or any other official benchmark, and no items were copied from a benchmark dataset. The suite exists to catch obvious regressions in factual recall under controlled prompt formatting.",
+  "limitations": [
+    "Twelve items only: scores are indicative, not statistically representative.",
+    "Term containment rewards mentions even inside a partially wrong answer.",
+    "Facts were selected for stability but may become outdated.",
+    "Prompt wording can materially change model accuracy; compare only identical suite versions."
+  ],
+  "items": [
+    {
+      "item_id": "kc-001",
+      "prompt": "Answer with the chemical symbol only. What is the chemical symbol for gold?",
+      "expected": "Au",
+      "category": "science",
+      "metadata": {}
+    },
+    {
+      "item_id": "kc-002",
+      "prompt": "Answer in one short sentence. What is the capital city of Australia?",
+      "expected": "Canberra",
+      "category": "geography",
+      "metadata": {}
+    },
+    {
+      "item_id": "kc-003",
+      "prompt": "Answer with the name only. Who wrote the novel Pride and Prejudice?",
+      "expected": "Jane Austen",
+      "category": "literature",
+      "metadata": {}
+    },
+    {
+      "item_id": "kc-004",
+      "prompt": "Answer with the planet name only. Which planet in the Solar System is the largest by mass?",
+      "expected": "Jupiter",
+      "category": "science",
+      "metadata": {}
+    },
+    {
+      "item_id": "kc-005",
+      "prompt": "Answer in one short sentence. What is the official currency of Japan?",
+      "expected": "yen",
+      "category": "economics",
+      "metadata": {}
+    },
+    {
+      "item_id": "kc-006",
+      "prompt": "Answer with the full name only. Who was the first person to walk on the Moon?",
+      "expected": "Neil Armstrong",
+      "category": "history",
+      "metadata": {}
+    },
+    {
+      "item_id": "kc-007",
+      "prompt": "Answer with the organ name only. Which organ pumps blood through the human body?",
+      "expected": "heart",
+      "category": "biology",
+      "metadata": {}
+    },
+    {
+      "item_id": "kc-008",
+      "prompt": "Answer with the ocean name only. Which ocean is the largest by surface area?",
+      "expected": "Pacific",
+      "category": "geography",
+      "metadata": {}
+    },
+    {
+      "item_id": "kc-009",
+      "prompt": "Answer in one short sentence. What does the abbreviation CPU stand for?",
+      "expected": "central processing unit",
+      "category": "technology",
+      "metadata": {}
+    },
+    {
+      "item_id": "kc-010",
+      "prompt": "Answer with the chemical formula only. What is the chemical formula of water?",
+      "expected": "H2O",
+      "category": "science",
+      "metadata": {}
+    },
+    {
+      "item_id": "kc-011",
+      "prompt": "Answer with the language name only. Which language has the most native speakers worldwide?",
+      "expected": "Mandarin",
+      "category": "language",
+      "metadata": {}
+    },
+    {
+      "item_id": "kc-012",
+      "prompt": "Answer with the number only. At standard sea-level pressure, what is the boiling point of water in degrees Celsius?",
+      "expected": "100",
+      "category": "science",
+      "metadata": {}
+    }
+  ]
+}

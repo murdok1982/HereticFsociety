@@ -1,6 +1,12 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 # Copyright (C) 2025-2026  Philipp Emanuel Weidmann <pew@worldwidemann.com> + contributors
 
+# FSOCIETY AI: the platform can be installed without the engine stack. These
+# upstream engine tests are reported as skipped rather than failing collection.
+import pytest
+
+pytest.importorskip("torch")
+
 import unittest
 from types import SimpleNamespace
 from typing import cast

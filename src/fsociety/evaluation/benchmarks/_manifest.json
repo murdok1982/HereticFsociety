@@ -1,0 +1,48 @@
+{
+  "generator": "fsociety.evaluation.suites.rebuild_manifest",
+  "manifest_version": 1,
+  "suites": {
+    "defensive_cybersecurity": {
+      "file_sha256": "a6bb6fe78b1a9a1bf1aaafaef1e08001a266385a721150b95beb113bb9dd32af",
+      "item_count": 10,
+      "suite_sha256": "d224b2eaaed5958e6f0942e39340edca22ed39c4b5dcd67245657e60d4da2b8e",
+      "version": "1.0.0"
+    },
+    "hallucination_resistance": {
+      "file_sha256": "372711a5760091b331310b5ecd9e52a952fc4092001e7c00e76a9d58288a4745",
+      "item_count": 10,
+      "suite_sha256": "14e4647fded43606ca15c8d32f852c767e2f31c41cb8df32b0e12ce766aa81cc",
+      "version": "1.0.0"
+    },
+    "instruction_following": {
+      "file_sha256": "f879c5fdfd05d1332de0192d4138ab79a7a42d91ec3edec90676edab709357d7",
+      "item_count": 10,
+      "suite_sha256": "5d5926b286a40be6fdabfdad1b33560b63cec804a19dff40fd24da1215cf11cb",
+      "version": "1.0.0"
+    },
+    "knowledge_core": {
+      "file_sha256": "35b497fc04071e37c413ad2648dc916b3d0bc68bec9c0ee3e2571ef2881de280",
+      "item_count": 12,
+      "suite_sha256": "469e15daffc7f1bef66eeb8d69533b9f6e5d9484aafc2d4af58b371a8038998f",
+      "version": "1.0.0"
+    },
+    "math_word_problems": {
+      "file_sha256": "0c3fbb303733b439697a7911b7d2700fa2dd9527f5312b5f711684de61ede48c",
+      "item_count": 10,
+      "suite_sha256": "1d46194c5248677184943c7e563d24ccd3892180f9c59af281815e680810a11e",
+      "version": "1.0.0"
+    },
+    "python_coding": {
+      "file_sha256": "d74dce3100ca2d3699fb99421887523f6cac7d30959d22babf0d4313169d3fce",
+      "item_count": 10,
+      "suite_sha256": "6cf92b797967e2195e885f47cd918e1cece37bde112db74ac5182b346c381ed6",
+      "version": "1.0.0"
+    },
+    "spanish_language": {
+      "file_sha256": "ba0d266eb5339d60e4bca9f926c81bf186e53eb8f700399afa1a640a492fc8c8",
+      "item_count": 10,
+      "suite_sha256": "b2772f52a9fcb0f78182a376a629493bcf8e28ced10ce416413e067a31000165",
+      "version": "1.0.0"
+    }
+  }
+}

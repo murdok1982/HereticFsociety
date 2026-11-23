@@ -1,14 +1,15 @@
 [project]
-name = "heretic-llm"
-version = "2.2.0.dev0"
-description = "Training-free language model modification"
+name = "fsociety-ai"
+version = "3.0.0"
+description = "FSOCIETY AI: model engineering platform built on the Heretic modification engine"
 readme = "README.md"
 license = "AGPL-3.0-or-later"
 authors = [
-    { name = "Philipp Emanuel Weidmann", email = "pew@worldwidemann.com" }
+    { name = "Philipp Emanuel Weidmann", email = "pew@worldwidemann.com" },
+    { name = "FSOCIETY AI contributors" },
 ]
 requires-python = ">=3.10"
-keywords = ["llm", "transformer", "abliteration"]
+keywords = ["llm", "transformer", "abliteration", "model-engineering", "evaluation"]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Environment :: Console",
@@ -24,55 +25,114 @@ classifiers = [
     "Programming Language :: Python :: 3.15",
 ]
 dependencies = [
-    "accelerate~=1.15",
-    "bitsandbytes~=0.50",
-    "datasets~=5.0",
+    "accelerate~=1.15; python_version >= '3.11'",
+    "bitsandbytes~=0.50; python_version >= '3.11'",
+    "datasets~=5.0; python_version >= '3.11'",
     "huggingface-hub~=1.33",
-    "immutabledict~=4.3",
-    "ipython~=8.39",
-    "langdetect~=1.0",
-    "lm-eval[hf]~=0.4",
+    "immutabledict~=4.3; python_version >= '3.11'",
+    "ipython~=8.39; python_version >= '3.11'",
+    "langdetect~=1.0; python_version >= '3.11'",
+    "lm-eval[hf]~=0.4; python_version >= '3.11'",
     "numpy~=2.2",
     "optuna~=5.0",
-    "peft~=0.21",
+    "peft~=0.21; python_version >= '3.11'",
+    # Security floor for advisories reachable through engine datasets/benchmarks.
+    "pillow>=13.0.0; python_version >= '3.11'",
+    "certifi>=2026.10.18",
+    "filelock>=4.2.1; python_version >= '3.11'",
+    "nltk>=3.10.4",
+    "dnspython>=2.9.2; python_version >= '3.11'",
+    "pyasn1>=0.6.5",
     "psutil~=7.2",
+    "pydantic>=2.9,<3",
     "py-cpuinfo~=9.0",
     "pydantic-settings~=2.15",
-    "questionary~=2.1",
+    "questionary~=2.1; python_version >= '3.11'",
     "rich~=15.0",
     "tomli-w~=1.2",
-    "torch",  # version deliberately unspecified
-    "torchvision",  # version deliberately unspecified
-    "tqdm~=4.70",
-    "transformers[kernels]~=5.18",
+    "torch; python_version >= '3.11'",  # version deliberately unspecified
+    "torchvision; python_version >= '3.11'",  # version deliberately unspecified
+    "tomli>=2.0; python_version < '3.11'",
+    "tqdm~=4.70; python_version >= '3.11'",
+    "transformers[kernels]~=5.18; python_version >= '3.11'",
 ]
 
-[dependency-groups]
+[project.optional-dependencies]
+# Lightweight platform-only profile: no torch/transformers required.
+# Install the package with `--no-deps` plus this extra for CI/edge deployments.
+api = [
+    "fastapi>=0.115,<1.0",
+    "uvicorn[standard]>=0.30,<1.0",
+    "httpx>=0.27,<1.0",
+]
+llama = ["llama-cpp-python>=0.3"]
 dev = [
     "ruff>=0.16.9",
     "ty>=0.0.84",
+    "pytest>=8.3",
+    "pytest-cov>=6.0",
 ]
 
 [project.urls]
-Homepage = "https://heretic-project.org"
-Documentation = "https://heretic-project.org/tutorial"
-Repository = "https://github.com/p-e-w/heretic.git"
-Issues = "https://github.com/p-e-w/heretic/issues"
-Changelog = "https://github.com/p-e-w/heretic/releases"
+Homepage = "https://github.com/murdok1982/HereticFsociety"
+Documentation = "https://github.com/murdok1982/HereticFsociety/tree/master/docs"
+Repository = "https://github.com/murdok1982/HereticFsociety.git"
+Issues = "https://github.com/murdok1982/HereticFsociety/issues"
+Upstream = "https://github.com/p-e-w/heretic"
+Changelog = "https://github.com/murdok1982/HereticFsociety/releases"
 
 [project.scripts]
+fsociety = "fsociety.interfaces.cli.main:entrypoint"
 heretic = "heretic.main:main"
 
 [build-system]
-requires = ["uv_build>=0.12.21,<0.13.0"]
-build-backend = "uv_build"
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/heretic", "src/fsociety"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/src",
+    "/tests",
+    "/docs",
+    "/config.*.toml",
+    "/README.md",
+    "/CHANGELOG.md",
+    "/SECURITY.md",
+    "/CONTRIBUTING.md",
+    "/LICENSE",
+]
+
+[tool.ruff]
+target-version = "py310"
 
 [tool.ruff.lint]
+# Explicit baseline for reproducible linting across Ruff versions.
+select = ["E4", "E7", "E9", "F", "I"]
 ignore = [
     "B023",  # "Function definition does not bind loop variable"
     "BLE001",  # "Do not catch blind exception"
     "TRY002",  # "Create your own exception"
     "SIM117",  # "Use a single `with` statement with multiple contexts instead of nested `with` statements"
+    # The repository is frequently developed on exFAT, where every file is +x.
+    "EXE002",
+]
+
+[tool.ruff.lint.per-file-ignores]
+# Upstream sets environment variables and patches tqdm before importing the
+# heavy ML stack; module-level imports after executable code are intentional.
+"src/heretic/main.py" = ["E402"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = "-ra"
+markers = [
+    "gpu: requires a CUDA/MPS-capable device (skipped when unavailable)",
+    "engine: requires the full Heretic engine dependencies (torch/transformers)",
+    "api: requires the optional FastAPI dependencies",
 ]
 
 [tool.uv]
@@ -88,6 +148,3 @@ torchvision = { index = "pytorch" }
 name = "pytorch"
 url = "https://download.pytorch.org/whl/cpu"
 explicit = true
-
-[tool.uv.build-backend]
-module-name = "heretic"

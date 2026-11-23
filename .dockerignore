@@ -1,0 +1,20 @@
+# Build context exclusions for the CPU image.
+.git
+.github
+.venv
+.factory
+.pytest_cache
+.ruff_cache
+.ty
+**/__pycache__
+**/*.pyc
+frontend/node_modules
+frontend/dist
+docs
+tests
+dist
+build
+*.egg-info
+.env
+.env.*
+!.env.example

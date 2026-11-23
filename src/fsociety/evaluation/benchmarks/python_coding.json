@@ -1,0 +1,119 @@
+{
+  "suite_id": "python_coding",
+  "name": "Python Coding (smoke)",
+  "version": "1.0.0",
+  "description": "Small original suite of Python coding tasks graded by static analysis: the response is parsed with ast.parse and checked for required functions, constructs and snippets. Code is never executed.",
+  "grader": "python_syntax",
+  "language": "en",
+  "tags": ["coding", "python", "static-analysis", "smoke"],
+  "provenance": "Hand-written by the FSOCIETY AI maintainers. This is NOT HumanEval, MBPP, APPS or any official code benchmark; no dataset items were copied. tasks are trivial by design and verify that generated code parses and declares the requested API.",
+  "limitations": [
+    "Ten tasks only, all simple; passing does not imply general coding ability.",
+    "Grading is static (ast.parse plus name/snippet checks): logically wrong code can pass.",
+    "Code is never executed, so runtime errors and side effects are not detected.",
+    "The reference solution in 'expected' is documentation only and is not compared textually."
+  ],
+  "items": [
+    {
+      "item_id": "py-001",
+      "prompt": "Write a Python function named add that takes two arguments and returns their sum. Reply with a single fenced Python code block.",
+      "expected": "def add(a, b):\n    return a + b",
+      "category": "functions",
+      "metadata": {
+        "required_names": ["add"],
+        "required_constructs": ["FunctionDef"],
+        "must_contain": ["return"]
+      }
+    },
+    {
+      "item_id": "py-002",
+      "prompt": "Write a Python function named is_even that takes an integer and returns True when it is even. Reply with a single fenced Python code block.",
+      "expected": "def is_even(n):\n    return n % 2 == 0",
+      "category": "functions",
+      "metadata": {
+        "required_names": ["is_even"],
+        "must_contain": ["%", "return"]
+      }
+    },
+    {
+      "item_id": "py-003",
+      "prompt": "Write a Python function named reverse_text that returns its string argument reversed. Reply with a single fenced Python code block.",
+      "expected": "def reverse_text(text):\n    return text[::-1]",
+      "category": "strings",
+      "metadata": {
+        "required_names": ["reverse_text"],
+        "must_contain": ["return"]
+      }
+    },
+    {
+      "item_id": "py-004",
+      "prompt": "Write a Python function named count_vowels that returns the number of vowels (a, e, i, o, u) in a string, case-insensitively. Reply with a single fenced Python code block.",
+      "expected": "def count_vowels(text):\n    return sum(1 for ch in text.lower() if ch in 'aeiou')",
+      "category": "strings",
+      "metadata": {
+        "required_names": ["count_vowels"],
+        "must_contain": ["return"]
+      }
+    },
+    {
+      "item_id": "py-005",
+      "prompt": "Write a Python function named factorial that returns the factorial of a non-negative integer using a loop. Reply with a single fenced Python code block.",
+      "expected": "def factorial(n):\n    result = 1\n    for i in range(2, n + 1):\n        result *= i\n    return result",
+      "category": "loops",
+      "metadata": {
+        "required_names": ["factorial"],
+        "must_contain": ["for", "return"]
+      }
+    },
+    {
+      "item_id": "py-006",
+      "prompt": "Write a Python function named safe_divide that returns a divided by b and raises ValueError when b is zero. Reply with a single fenced Python code block.",
+      "expected": "def safe_divide(a, b):\n    if b == 0:\n        raise ValueError('division by zero')\n    return a / b",
+      "category": "errors",
+      "metadata": {
+        "required_names": ["safe_divide"],
+        "must_contain": ["raise", "ValueError", "return"]
+      }
+    },
+    {
+      "item_id": "py-007",
+      "prompt": "Write a Python function named dedupe that removes duplicates from a list while preserving the original order. Reply with a single fenced Python code block.",
+      "expected": "def dedupe(items):\n    seen = set()\n    result = []\n    for item in items:\n        if item not in seen:\n            seen.add(item)\n            result.append(item)\n    return result",
+      "category": "collections",
+      "metadata": {
+        "required_names": ["dedupe"],
+        "must_contain": ["return"]
+      }
+    },
+    {
+      "item_id": "py-008",
+      "prompt": "Write a Python function named is_palindrome that ignores case and spaces and returns True when the text reads the same forwards and backwards. Reply with a single fenced Python code block.",
+      "expected": "def is_palindrome(text):\n    cleaned = ''.join(ch.lower() for ch in text if ch.isalnum())\n    return cleaned == cleaned[::-1]",
+      "category": "strings",
+      "metadata": {
+        "required_names": ["is_palindrome"],
+        "must_contain": ["lower", "return"]
+      }
+    },
+    {
+      "item_id": "py-009",
+      "prompt": "Write a Python function named fibonacci_list that returns a list with the first n Fibonacci numbers, starting with 0 and 1. Reply with a single fenced Python code block.",
+      "expected": "def fibonacci_list(n):\n    values = []\n    a, b = 0, 1\n    for _ in range(n):\n        values.append(a)\n        a, b = b, a + b\n    return values",
+      "category": "sequences",
+      "metadata": {
+        "required_names": ["fibonacci_list"],
+        "must_contain": ["return"]
+      }
+    },
+    {
+      "item_id": "py-010",
+      "prompt": "Write a Python function named fizzbuzz that returns 'Fizz' for multiples of 3, 'Buzz' for multiples of 5, 'FizzBuzz' for multiples of both, and the number as a string otherwise. Reply with a single fenced Python code block.",
+      "expected": "def fizzbuzz(n):\n    if n % 15 == 0:\n        return 'FizzBuzz'\n    if n % 3 == 0:\n        return 'Fizz'\n    if n % 5 == 0:\n        return 'Buzz'\n    return str(n)",
+      "category": "conditionals",
+      "metadata": {
+        "required_names": ["fizzbuzz"],
+        "must_contain": ["Fizz", "Buzz", "return"]
+      }
+    }
+  ]
+}

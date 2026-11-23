@@ -1,0 +1,88 @@
+{
+  "suite_id": "math_word_problems",
+  "name": "Math Word Problems (smoke)",
+  "version": "1.0.0",
+  "description": "Small original suite of grade-school arithmetic word problems. The numeric grader parses the final number of the response and applies a tolerance, so formatting differences are tolerated.",
+  "grader": "numeric",
+  "language": "en",
+  "tags": ["math", "arithmetic", "smoke"],
+  "provenance": "Hand-written by the FSOCIETY AI maintainers. This is NOT GSM8K, MATH, AIME or any official math benchmark; no dataset items were copied. It is a deterministic smoke check for arithmetic reasoning and answer extraction.",
+  "limitations": [
+    "Ten items only: a single arithmetic slip dominates the score.",
+    "The grader takes the last number in the response; verbose answers can hide the correct value.",
+    "No chain-of-thought verification; only the final numeric value is checked.",
+    "Not representative of competition mathematics or multi-step symbolic reasoning."
+  ],
+  "items": [
+    {
+      "item_id": "mw-001",
+      "prompt": "A workshop produces 18 widgets every hour. How many widgets does it produce in 7 hours? End with the final number.",
+      "expected": "126",
+      "category": "multiplication",
+      "metadata": {"tolerance": 0.001}
+    },
+    {
+      "item_id": "mw-002",
+      "prompt": "Marta buys 3 notebooks at 4.50 each and a pen for 2.25. What is the total cost? End with the final number.",
+      "expected": "15.75",
+      "category": "addition",
+      "metadata": {"tolerance": 0.01}
+    },
+    {
+      "item_id": "mw-003",
+      "prompt": "A train travels 240 kilometres in 3 hours at a constant speed. How many kilometres per hour does it travel? End with the final number.",
+      "expected": "80",
+      "category": "division",
+      "metadata": {"tolerance": 0.001}
+    },
+    {
+      "item_id": "mw-004",
+      "prompt": "A bag contains 5 red marbles and 7 blue marbles. How many marbles are in the bag in total? End with the final number.",
+      "expected": "12",
+      "category": "addition",
+      "metadata": {"tolerance": 0.001}
+    },
+    {
+      "item_id": "mw-005",
+      "prompt": "A recipe needs three quarters of a cup of sugar per batch. How many cups of sugar are needed for 6 batches? End with the final number.",
+      "expected": "4.5",
+      "category": "fractions",
+      "metadata": {"tolerance": 0.001}
+    },
+    {
+      "item_id": "mw-006",
+      "prompt": "A shirt costs 40 and is discounted by 15 percent. What is the final price? End with the final number.",
+      "expected": "34",
+      "category": "percentage",
+      "metadata": {"tolerance": 0.01}
+    },
+    {
+      "item_id": "mw-007",
+      "prompt": "A sequence starts at 7 and adds 5 at each step. What is the 9th term of the sequence? End with the final number.",
+      "expected": "47",
+      "category": "sequences",
+      "metadata": {"tolerance": 0.001}
+    },
+    {
+      "item_id": "mw-008",
+      "prompt": "A tank holds 120 litres and is 35 percent full. How many litres of liquid are in the tank? End with the final number.",
+      "expected": "42",
+      "category": "percentage",
+      "metadata": {"tolerance": 0.001}
+    },
+    {
+      "item_id": "mw-009",
+      "prompt": "Ana reads 25 pages per day. How many days does she need to finish a 400-page book? End with the final number.",
+      "expected": "16",
+      "category": "division",
+      "metadata": {"tolerance": 0.001}
+    },
+    {
+      "item_id": "mw-010",
+      "prompt": "Three friends split 87 coins equally with no remainder. How many coins does each friend receive? End with the final number.",
+      "expected": "29",
+      "category": "division",
+      "metadata": {"tolerance": 0.001}
+    }
+  ]
+}
